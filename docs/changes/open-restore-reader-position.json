@@ -1,0 +1,8 @@
+{
+  "group": "fixes",
+  "order": 0,
+  "external": false,
+  "at": "2026-11-07",
+  "zh": "修复加载期间上滑的阅读位置在会话打开后被宿主落底覆盖",
+  "en": "Fix the reading position taken while a conversation loads being overwritten when the host lands it at the end"
+}

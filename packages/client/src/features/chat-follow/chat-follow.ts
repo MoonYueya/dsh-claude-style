@@ -3,6 +3,7 @@ import { observeMatches, observeSize, subscribeMutations } from '@dsh-claude-sty
 import { requestFrame } from '@dsh-claude-style/engine/frame'
 import { motionReduced } from '../../core/prefs'
 import { createChatProcessFollow } from './process-follow'
+import { createOpenRestore } from './open-restore'
 import { CHAT_CALL_SELECTOR, CHAT_RUNNING_SELECTOR, CONVERSATION_SCROLL_SELECTOR, FLOW_BLOCK_SELECTOR, FOLLOWING_TAIL_ATTRIBUTE, FOLLOWING_TAIL_SELECTOR, ROW_PHASE_ATTRIBUTE, RUNNING_STATE, SHIMMER_SELECTOR, STREAMING_SELECTOR, THINK_ROW_SELECTOR } from '@dsh-claude-style/contracts/dom'
 import { conversationColumn, conversationScroller, findFollowTailButton } from '@dsh-claude-style/engine/chat-dom'
 import { createStamp } from '@dsh-claude-style/engine/dom'
@@ -116,6 +117,8 @@ function placeFollowTail(stamp: ReturnType<typeof createStamp<HTMLElement>>, car
 export function createChatFollowGuard(options: { foldBusy: () => boolean, submissionHeld: () => boolean }) {
   const { foldBusy, submissionHeld } = options
   const leaveOwner = joinScrollOwner()
+  /** The place a reader takes while the conversation opens: the host records none of it (open-restore.ts). */
+  const stopOpenRestore = createOpenRestore()
   /** When the last hand-back really landed, for the throttle. */
   let lastEnsureAt = 0
   /** When structure last changed, for the grace above. */
@@ -579,6 +582,7 @@ export function createChatFollowGuard(options: { foldBusy: () => boolean, submis
     releaseHold()
     runningRows.release()
     slideColumn = null
+    stopOpenRestore()
     leaveOwner()
   }
 }

@@ -97,7 +97,7 @@ const TOUCH_END_TYPES = new Set(['touchend', 'touchcancel'])
  * event the owner hears. Two rules: a pointer or key inside the composer is the
  * reader typing, and of the keys only the ones that scroll the viewport count.
  */
-function isReaderScrollIntent(event: Event) {
+export function isReaderScrollIntent(event: Event) {
   const target = event.target
   if (target instanceof Element && target.closest(COMPOSER_SELECTOR) !== null) return false
   if (event.type !== 'keydown') return true
